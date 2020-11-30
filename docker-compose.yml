@@ -1,0 +1,25 @@
+version: '3.7'
+
+networks:
+  app-tier:
+    driver: bridge
+    
+services:
+  service-a:
+    build:
+      context: ./service-a
+    networks:
+      - app-tier
+    entrypoint: tail -f /dev/null
+  service-b:
+    build:
+      context: ./service-b
+    networks:
+      - app-tier
+  rabbitmq:
+    image: 'bitnami/rabbitmq:latest'
+    environment:
+      - RABBITMQ_USERNAME=username
+      - RABBITMQ_PASSWORD=password
+    networks:
+      - app-tier
